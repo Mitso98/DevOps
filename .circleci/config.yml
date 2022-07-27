@@ -61,13 +61,13 @@ jobs:
               sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
               kubectl version --client
 
-        # - run:
-        #     name: Create an EKS Cluster 
-        #     command: |
-        #       eksctl create cluster --name eksctl-demo --region=us-east-2
-        #       eksctl utils describe-stacks --region=us-east-2 --cluster=eksctl-demo
-        #       eksctl get cluster --name=eksctl-demo --region=us-east-2
-        #       kubectl get nodes
+        - run:
+            name: Create an EKS Cluster 
+            command: |
+              eksctl create cluster --name hello-app --region=us-east-2
+              eksctl utils describe-stacks --region=us-east-2 --cluster=hello-app
+              eksctl get cluster --name=hello-app --region=us-east-2
+              kubectl get nodes
         - run:
             name: Deploy
             command: |
