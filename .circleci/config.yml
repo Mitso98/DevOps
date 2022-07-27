@@ -29,8 +29,7 @@ jobs:
         - run:
             name: Build docker container
             command: |
-              pwd
-              ls
+              docker --version
               ./run_docker.sh
         - run:
             name: Upload Docker to Dockerhub
