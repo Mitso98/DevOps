@@ -40,7 +40,7 @@ jobs:
               TAG="0.1.${CIRCLE_BUILD_NUM}" | tr '[:upper:]' '[:lower:]'
               DOCKERPATH="mo9348/hello-app"
               docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
-              docker tag "hello-app:${TAG}" "${DOCKERPATH}"
+              docker tag "hello-app" "${DOCKERPATH}:${TAG}"
               docker push "${DOCKERPATH}"
 
 workflows:
