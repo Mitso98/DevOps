@@ -50,36 +50,31 @@ jobs:
       docker:
       - image: cimg/base:2021.04
       steps:
-
-        - run:
-            name: Install EKS
-            command: |
-              curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-              sudo mv /tmp/eksctl /usr/local/bin
-              eksctl version
-              curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-              sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-              kubectl version --client
+        # - run:
+        #     name: Install EKS
+        #     command: |
+        #       curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+        #       sudo mv /tmp/eksctl /usr/local/bin
+        #       eksctl version
+        #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        #       sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+        #       kubectl version --client
 
         - run:
             name: Create an EKS Cluster 
             command: |
-              eksctl create cluster --name hello-app --region=us-east-2
-              eksctl utils describe-stacks --region=us-east-2 --cluster=hello-app
-              eksctl get cluster --name=hello-app --region=us-east-2
-              kubectl get nodes
-        - run:
-            name: Deploy
-            command: |
-              kubectl get nodes
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+              aws --version
 
 
 
 workflows:
   default:
     jobs:
-      - test-build
-      - upload-docker:
-          requires: [test-build]
-      - deploy:
-          requires: [upload-docker]
+      # - test-build
+      - upload-docker
+          # requires: [test-build]
+      # - deploy:
+      #     requires: [upload-docker]
