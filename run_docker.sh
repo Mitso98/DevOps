@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Build image and add a descriptive tag
+systemctl start docker
 docker build --tag=hello-image .
  
 # List docker images
