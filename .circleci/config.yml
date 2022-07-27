@@ -13,8 +13,6 @@ jobs:
           command: |
             python3 -m venv .devops
             source .devops/bin/activate
-            ls
-            pwd
             make install
       # run lint
       - run:
@@ -31,6 +29,8 @@ jobs:
         - run:
             name: Build docker container
             command: |
+              pwd
+              ls
               ./run_docker.sh
         - run:
             name: Upload Docker to Dockerhub
