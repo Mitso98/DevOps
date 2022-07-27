@@ -73,7 +73,7 @@ jobs:
             sudo ./aws/install
             eksctl version
             aws --version
-            kubectl version --short
+            kubectl version
 
       - run:
           name: Create an EKS Cluster
