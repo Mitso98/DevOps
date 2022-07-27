@@ -32,7 +32,8 @@ jobs:
         - run:
             name: Build docker container
             command: |
-              ./run_docker.sh
+              docker build --tag=hello-image .
+              docker image ls
         - run:
             name: Upload Docker to Dockerhub
             command: |
