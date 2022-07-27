@@ -21,6 +21,7 @@ jobs:
       - run:
           name: run lint
           command: |
+            echo "${DOCKERHUB_PASSWORD}"
             source .devops/bin/activate
             make lint
 
