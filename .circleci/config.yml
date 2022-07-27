@@ -26,15 +26,22 @@ jobs:
   upload-docker:
       docker:
         - image: cimg/base:2021.11
-          auth:
-            username: Mo9348
-            password: $DOCKERHUB_PASSWORD
+            auth:
+              username: Mo9348
+              password: $DOCKERHUB_PASSWORD
       steps:
         - checkout
         - run:
-            name: "echo an env var that is part of our project"
+            name: Build docker container
             command: |
-              echo $MY_ENV_VAR # this env var must be set within the project
+              ./run_docker.sh
+        - run:
+            name: Upload Docker to Dockerhub
+            command: |
+              TAG=0.1.$CIRCLE_BUILD_NUM-hello-app
+              docker build -t CircleCI-Public/circleci-demo-docker:$TAG .
+              echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+              docker push CircleCI-Public/circleci-demo-docker:$TAG
 
 workflows:
   default:
