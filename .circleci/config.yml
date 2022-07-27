@@ -51,6 +51,7 @@ jobs:
         - image: cimg/python:3.10
       steps:
         - checkout
+        - kubernetes/install
         - run:
             name: Create an EKS Cluster
             command: |
