@@ -48,22 +48,16 @@ jobs:
 
   deploy:
       docker:
-        - image: cimg/python:3.10
+      - image: cimg/base:2021.04
       steps:
-        - checkout
-        - kubernetes/install:
-            kubectl-version: v1.22.0
+
         - run:
             name: Create an EKS Cluster
             command: |
-              eksctl create cluster --name eksctl-hello-app --region=us-east-2
-              eksctl utils describe-stacks --region=us-east-2 --cluster=eksctl-hello-app
-              eksctl get cluster --name=eksctl-demo --region=us-east-2
-        - run:
-            name: Deploy
-            command: |
-              kubectl create deploy python-helloworld --image=mo9348/hello-image:latest
-              kubectl get deploy,rs,svc,pods
+              curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+              sudo mv /tmp/eksctl /usr/local/bin
+              eksctl version
+
 
 workflows:
   default:
