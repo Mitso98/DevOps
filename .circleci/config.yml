@@ -31,20 +31,10 @@ jobs:
             password: $DOCKERHUB_PASSWORD
       steps:
         - checkout
-        - setup_remote_docker:
-            version: 20.10.14
-            docker_layer_caching: true
-        - run:
-            name: Build docker container
-            command: |
-              ./run_docker.sh
-        - run:
-            name: Upload Docker to Dockerhub
-            command: |
-              TAG=0.1.$CIRCLE_BUILD_NUM-hello-app
-              docker build -t CircleCI-Public/circleci-demo-docker:$TAG .
-              echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-              docker push CircleCI-Public/circleci-demo-docker:$TAG
+      - run:
+          name: "echo an env var that is part of our project"
+          command: |
+            echo $MY_ENV_VAR # this env var must be set within the project
 
 workflows:
   default:
