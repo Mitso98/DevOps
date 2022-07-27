@@ -39,7 +39,7 @@ jobs:
               TAG="0.1.${CIRCLE_BUILD_NUM}" | tr '[:upper:]' '[:lower:]'
               dockerpath="mo9348/hello-image"
               docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
-              docker tag "hello-image:${TAG}" $dockerpath
+              docker tag "hello-image:latest" ${TAG}
               docker push $dockerpath
 
 workflows:
