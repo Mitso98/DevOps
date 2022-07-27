@@ -27,7 +27,7 @@ jobs:
       docker:
         - image: cimg/go:1.17
           auth:
-            username: mydockerhub-user
+            username: Mo9348
             password: $DOCKERHUB_PASSWORD
       steps:
         - setup_remote_docker:
