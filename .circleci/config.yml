@@ -41,7 +41,7 @@ jobs:
               DOCKERPATH="mo9348/hello-image"
               docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
               docker tag "hello-image:latest" "${DOCKERPATH}:${TAG}"  
-              docker push "${DOCKERPATH}:${TAG}"
+              docker push "${DOCKERPATH}"
 
 workflows:
   default:
