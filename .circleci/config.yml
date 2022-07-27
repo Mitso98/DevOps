@@ -23,7 +23,7 @@ jobs:
 
   upload-docker:
       docker:
-        - image: cimg/base:2021.11
+        - image: cimg/go:1.17
       steps:
         - checkout
         - run:
