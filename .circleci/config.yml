@@ -38,8 +38,8 @@ jobs:
             name: Upload Docker to Dockerhub
             command: |
               docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
-              TAG=0.1.$CIRCLE_BUILD_NUM-hello-app | tr '[:upper:]' '[:lower:]'
-              docker build -t "CircleCI-Public/circleci-demo-docker:${TAG}" .
+              TAG=0.1.$CIRCLE_BUILD_NUM-hello-app
+              docker build -t "CircleCI-Public/circleci-demo-docker:${TAG}" | tr '[:upper:]' '[:lower:]' .
               echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
               docker push CircleCI-Public/circleci-demo-docker:$TAG
 
