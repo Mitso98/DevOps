@@ -26,10 +26,12 @@ jobs:
         - image: cimg/go:1.17
       steps:
         - checkout
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
         - run:
             name: Build docker container
             command: |
-              docker --version
               ./run_docker.sh
         - run:
             name: Upload Docker to Dockerhub
