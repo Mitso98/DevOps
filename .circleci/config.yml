@@ -28,7 +28,6 @@ jobs:
         - checkout
         - setup_remote_docker:
             version: 20.10.14
-            docker_layer_caching: true
         - run:
             name: Build docker container
             command: |
@@ -41,7 +40,7 @@ jobs:
               DOCKERPATH="mo9348/hello-image"
               docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
               docker tag "hello-image:latest" "${DOCKERPATH}:${TAG}"  
-              docker push "${DOCKERPATH}"
+              docker push "${DOCKERPATH}:${TAG}"
 
 workflows:
   default:
