@@ -13,6 +13,8 @@ jobs:
           command: |
             python3 -m venv .devops
             source .devops/bin/activate
+            ls
+            pwds
             make install
       # run lint
       - run:
@@ -47,4 +49,5 @@ workflows:
   default:
     jobs:
       - test-build
-      - upload-docker
+      - upload-docker:
+          requires: [test-build]
