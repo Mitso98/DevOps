@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   test-build:
     docker:
-      - image: python:3.8.10-slim-buster
+      - image: python:3.8.10-streatch
 
     steps:
       - checkout
