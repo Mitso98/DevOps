@@ -1,0 +1,44 @@
+version: 2.1
+
+jobs:
+  test-build:
+    docker:
+      - image: python:3.8.10-slim-buster
+
+    steps:
+      - checkout
+      # run build
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv .devops
+            source .devops/bin/activate
+            make install
+      # run lint
+      - run:
+          name: run lint
+          command: |
+            source .devops/bin/activate
+            make lint
+
+upload-docker:
+    docker:
+      - image: cimg/go:1.17
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
+      - run:
+          name: Build docker container
+          command: |
+            ./run_docker.sh
+      - run:
+          name: Upload Docker to Dockerhub
+          command: |
+          TAG=0.1.$CIRCLE_BUILD_NUM-hello-app
+          docker build -t CircleCI-Public/circleci-demo-docker:$TAG .
+          echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+          docker push CircleCI-Public/circleci-demo-docker:$TAG
