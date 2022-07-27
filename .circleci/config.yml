@@ -41,7 +41,7 @@ jobs:
               DOCKERPATH="mo9348/hello-app"
               docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
               docker tag "hello-app" "${DOCKERPATH}:${TAG}"
-              docker push "${DOCKERPATH}"
+              docker push "${DOCKERPATH}:${TAG}"
 
 workflows:
   default:
