@@ -25,7 +25,7 @@ jobs:
 
   upload-docker:
       docker:
-        - image: cimg/go:1.17
+        - image: cimg/base:2021.11
           auth:
             username: Mo9348
             password: $DOCKERHUB_PASSWORD
