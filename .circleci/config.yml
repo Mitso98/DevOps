@@ -54,7 +54,6 @@ jobs:
         - run:
             name: Install EKS
             command: |
-              docker --version
               curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
               sudo mv /tmp/eksctl /usr/local/bin
               eksctl version
@@ -62,17 +61,19 @@ jobs:
               sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
               kubectl version --client
 
-        - run:
-            name: Create an EKS Cluster 
-            command: |
-              eksctl create cluster --name eksctl-demo --region=us-east-2
-              eksctl utils describe-stacks --region=us-east-2 --cluster=eksctl-demo
-              eksctl get cluster --name=eksctl-demo --region=us-east-2
-              kubectl get nodes
+        # - run:
+        #     name: Create an EKS Cluster 
+        #     command: |
+        #       eksctl create cluster --name eksctl-demo --region=us-east-2
+        #       eksctl utils describe-stacks --region=us-east-2 --cluster=eksctl-demo
+        #       eksctl get cluster --name=eksctl-demo --region=us-east-2
+        #       kubectl get nodes
         - run:
             name: Deploy
             command: |
-              docker --version
+              kubectl get nodes
+              kubectl create deploy python-helloworld --image=mo9348/hello-image:latest
+              kubectl get deploy,rs,svc,pods
 
 
 workflows:
