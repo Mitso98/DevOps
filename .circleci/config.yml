@@ -36,11 +36,10 @@ jobs:
         - run:
             name: Upload Docker to Dockerhub
             command: |
-              TAG="0.1.${CIRCLE_BUILD_NUM}" | tr '[:upper:]' '[:lower:]'
-              DOCKERPATH="mo9348/hello-app"
+              dockerpath="mo9348/hello-image"
               docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
-              docker tag "${DOCKERPATH}:latest" "${DOCKERPATH}:${TAG}"  
-              docker push "${DOCKERPATH}:${TAG}"
+              docker tag hello-image:latest $dockerpath
+              docker push $dockerpath
 
 workflows:
   default:
