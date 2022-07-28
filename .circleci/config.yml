@@ -55,6 +55,7 @@ jobs:
             docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
             docker tag "hello-image" "${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
             docker push "${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
+            docker push "${dockerpath}:latest"
 
   deploy:
     docker:
@@ -88,7 +89,7 @@ jobs:
             echo "Deploying to cluster"
             if kubectl get deployment hello-app; then
               echo "Updating deployment to ${CIRCLE_WORKFLOW_ID:0:7}"
-              kubectl set image deployment/site site="$DOCKERHUB_LOGIN/$CIRCLE_PROJECT_REPONAME:${CIRCLE_WORKFLOW_ID:0:7}"
+              kubectl set image deployment/hello-app hello-app="${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
             else
               echo "Creating deployment"
               kubectl apply -f ./kubernetes
@@ -97,8 +98,8 @@ jobs:
 workflows:
   default:
     jobs:
-      #- test-build
-      - upload-docker
-      #     requires: [test-build]
-      # - deploy:
-      #     requires: [upload-docker]
+      - test-build
+      - upload-docker:
+          requires: [test-build]
+      - deploy:
+          requires: [upload-docker]
