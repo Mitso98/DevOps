@@ -74,7 +74,6 @@ jobs:
           name: create update EKS cluster
           command: |
             aws eks update-kubeconfig --name eksctl-demo --region us-east-2
-            aws eks update-kubeconfig --name eksctl-demo --region us-east-2 --role-arn arn:aws:iam::693425811966:role/EKSClusterRole
             kubectl config view -o jsonpath='{"Cluster name\tServer\n"}{range .clusters[*]}{.name}{"\t"}{.cluster.server}{"\n"}{end}'
             echo "Deploying to cluster"
             if kubectl get deployment hello-app; then
