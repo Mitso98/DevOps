@@ -86,7 +86,7 @@ jobs:
       - run:
           name: create update EKS cluster
           command: |
-            aws eks update-kubeconfig --name hello-app
+            aws eks update-kubeconfig --name DevOps
             echo "Deploying to cluster"
             if kubectl get deployment hello-app; then
               echo "Updating deployment to ${CIRCLE_WORKFLOW_ID:0:7}"
@@ -99,8 +99,8 @@ jobs:
 workflows:
   default:
     jobs:
-      - test-build
-      - upload-docker:
-          requires: [test-build]
-      - deploy:
-          requires: [upload-docker]
+      # - test-build
+      # - upload-docker:
+      #     requires: [test-build]
+      - deploy
+          # requires: [upload-docker]
