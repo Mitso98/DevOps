@@ -74,8 +74,8 @@ jobs:
           name: create update EKS cluster
           command: |
             aws eks update-kubeconfig --name DevOps --region us-east-2
-            aws eks update-kubeconfig --name DevOps --region aws-region --role-arn arn:aws:iam::693425811966:role/EKSClusterRole
             kubectl config view -o jsonpath='{"Cluster name\tServer\n"}{range .clusters[*]}{.name}{"\t"}{.cluster.server}{"\n"}{end}'
+              # aws eks update-kubeconfig --name DevOps --region aws-region --role-arn arn:aws:iam::693425811966:role/EKSClusterRole
               # echo "Deploying to cluster"
               # if kubectl get deployment hello-app; then
               #   echo "Updating deployment to ${CIRCLE_WORKFLOW_ID:0:7}"
