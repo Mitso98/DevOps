@@ -58,9 +58,11 @@ jobs:
 
   deploy:
     docker:
-      - image: cimg/base:2021.04
+      - image: cimg/go:1.17
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 20.10.14
       - run:
           name: debug
           command: |
