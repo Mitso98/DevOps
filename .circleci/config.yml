@@ -54,6 +54,7 @@ jobs:
             dockerpath="mo9348/hello-image"
             docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
             docker tag "hello-image" "${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
+            docker tag "hello-image" "${dockerpath}:latest"
             docker push "${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
             docker push "${dockerpath}:latest"
 
