@@ -88,7 +88,7 @@ jobs:
             eksctl utils describe-stacks --region=us-east-2 --cluster="eksctl-${CIRCLE_WORKFLOW_ID:0:7}"
             eksctl get cluster --name="eksctl-${CIRCLE_WORKFLOW_ID:0:7}" --region=us-east-2
             kubectl get nodes
-
+      - destroy-environment
       - run:
           name: Deploy docker image to kubernates cluster
           command: |
@@ -99,8 +99,8 @@ jobs:
 workflows:
   default:
     jobs:
-      #- test-build
-      # - upload-docker:
-      #     requires: [test-build]
-      - deploy
-      #     requires: [upload-docker]
+      - test-build
+      - upload-docker:
+          requires: [test-build]
+      - deploy:
+          requires: [upload-docker]
