@@ -85,9 +85,7 @@ jobs:
           name: Create an EKS Cluster
           command: |
             kubectl create namespace "hello-app"
-            kubectl apply -f deploy.yml
-            kubectl apply -f service.yaml
-            kubectl get all -n "hello-app"
+
 
 
 workflows:
