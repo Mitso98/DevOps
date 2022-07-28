@@ -13,7 +13,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete-stack --stack-name "eksctl-${CIRCLE_WORKFLOW_ID:0:7}-cluster"
+            aws cloudformation delete cluster --stack-name --region=us-east-2 "eksctl-${CIRCLE_WORKFLOW_ID:0:7}"
 
 jobs:
   test-build:
