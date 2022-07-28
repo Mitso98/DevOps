@@ -13,7 +13,7 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation delete cluster --stack-name --region=us-east-2 "eksctl-${CIRCLE_WORKFLOW_ID:0:7}"
+            aws delete cluster --stack-name --region=us-east-2 "eksctl-${CIRCLE_WORKFLOW_ID:0:7}"
 
 jobs:
   test-build:
@@ -62,28 +62,32 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependancies
-          command: |
-            curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-            sudo mv /tmp/eksctl /usr/local/bin
-            curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-            sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+        name: debug
+        command: |
+          docker images
+      # - run:
+      #     name: Install dependancies
+      #     command: |
+      #       curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+      #       sudo mv /tmp/eksctl /usr/local/bin
+      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      #       sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      #       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      #       unzip awscliv2.zip
+      #       sudo ./aws/install
 
-      - run:
-          name: Create an EKS Cluster
-          command: |
-            eksctl create cluster --name "eksctl-${CIRCLE_WORKFLOW_ID:0:7}" --region=us-east-2
-            eksctl utils describe-stacks --region=us-east-2 --cluster="eksctl-${CIRCLE_WORKFLOW_ID:0:7}"
-            eksctl get cluster --name="eksctl-${CIRCLE_WORKFLOW_ID:0:7}" --region=us-east-2
-            kubectl get nodes
+      # - run:
+      #     name: Create an EKS Cluster
+      #     command: |
+      #       eksctl create cluster --name "eksctl-${CIRCLE_WORKFLOW_ID:0:7}" --region=us-east-2
+      #       eksctl utils describe-stacks --region=us-east-2 --cluster="eksctl-${CIRCLE_WORKFLOW_ID:0:7}"
+      #       eksctl get cluster --name="eksctl-${CIRCLE_WORKFLOW_ID:0:7}" --region=us-east-2
+      #       kubectl get nodes
 
       - run:
           name: Deploy docker image to kubernates cluster
           command: |
-            kubectl create deploy python-helloworld --image="${dockerpath}:latest"
+            kubectl create deploy python-helloworld --image="mo9348/hello-image:latest"
             kubectl get deploy,rs,svc,pods
       - destroy-environment
 
