@@ -65,6 +65,9 @@ jobs:
           name: debug
           command: |
             docker --version
+            docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
+            docker pull mo9348/hello-image:tagname
+            docker images
       # - run:
       #     name: Install dependancies
       #     command: |
