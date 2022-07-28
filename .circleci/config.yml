@@ -62,9 +62,9 @@ jobs:
     steps:
       - checkout
       - run:
-        name: debug
-        command: |
-          docker images
+          name: debug
+          command: |
+            docker images
       # - run:
       #     name: Install dependancies
       #     command: |
