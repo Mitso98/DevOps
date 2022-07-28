@@ -76,9 +76,9 @@ jobs:
             aws eks update-kubeconfig --name DevOps --region us-east-2
             kubectl config view -o jsonpath='{"Cluster name\tServer\n"}{range .clusters[*]}{.name}{"\t"}{.cluster.server}{"\n"}{end}'
             aws eks update-kubeconfig --name DevOps --region us-east-2 --role-arn arn:aws:iam::693425811966:role/EKSClusterRole
-              # echo "Deploying to cluster"
-              # if kubectl get deployment hello-app; then
-              #   echo "Updating deployment to ${CIRCLE_WORKFLOW_ID:0:7}"
+            echo "Deploying to cluster"
+            if kubectl get deployment hello-app; then
+              echo "Updating deployment to ${CIRCLE_WORKFLOW_ID:0:7}"
               #   kubectl set image deployment/hello-app hello-app="${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
               # else
               #   echo "Creating deployment"
