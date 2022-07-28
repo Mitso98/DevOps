@@ -84,12 +84,12 @@ jobs:
       #       eksctl get cluster --name="eksctl-${CIRCLE_WORKFLOW_ID:0:7}" --region=us-east-2
       #       kubectl get nodes
 
-      - run:
-          name: Deploy docker image to kubernates cluster
-          command: |
-            kubectl create deploy python-helloworld --image="mo9348/hello-image:latest"
-            kubectl get deploy,rs,svc,pods
-      - destroy-environment
+      # - run:
+      #     name: Deploy docker image to kubernates cluster
+      #     command: |
+      #       kubectl create deploy python-helloworld --image="mo9348/hello-image:latest"
+      #       kubectl get deploy,rs,svc,pods
+      # - destroy-environment
 
 workflows:
   default:
