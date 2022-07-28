@@ -88,8 +88,8 @@ jobs:
 workflows:
   default:
     jobs:
-      - test-build
-      - upload-docker:
-          requires: [test-build]
-      - deploy:
-          requires: [upload-docker]
+      # - test-build
+      # - upload-docker:
+      #     requires: [test-build]
+      - deploy
+      #     requires: [upload-docker]
