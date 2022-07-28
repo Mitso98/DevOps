@@ -79,11 +79,11 @@ jobs:
             echo "Deploying to cluster"
             if kubectl get deployment hello-app; then
               echo "Updating deployment to ${CIRCLE_WORKFLOW_ID:0:7}"
-              #   kubectl set image deployment/hello-app hello-app="${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
-              # else
-              #   echo "Creating deployment"
-              #   kubectl apply -f ./kubernetes
-              # fi
+              kubectl set image deployment/hello-app hello-app="${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
+            else
+              echo "Creating deployment"
+              kubectl apply -f ./kubernetes
+            fi
 
 workflows:
   default:
