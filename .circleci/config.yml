@@ -63,6 +63,7 @@ jobs:
       - image: cimg/go:1.17
     steps:
       - checkout
+      - aws-cli/setup
       - setup_remote_docker:
           version: 20.10.14
       - run:
@@ -79,9 +80,7 @@ jobs:
             sudo mv /tmp/eksctl /usr/local/bin
             curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
             sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install
+
 
       - run:
           # DevOps is the cluster name
