@@ -53,8 +53,8 @@ jobs:
           command: |
             dockerpath="mo9348/hello-image"
             docker login --username=mo9348 --password=$DOCKERHUB_PASSWORD
-            docker tag "hello-image:latest" $dockerpath
-            docker push $dockerpath
+            docker tag "hello-image" "${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
+            docker push "${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
 
   deploy:
     docker:
@@ -82,18 +82,23 @@ jobs:
             sudo ./aws/install
 
       - run:
-          name: Create an EKS Cluster
+          name: create update EKS cluster
           command: |
-            kubectl create namespace "hello-app"
-
-
+            aws eks update-kubeconfig --name hello-app
+            echo "Deploying to cluster"
+            if kubectl get deployment hello-app; then
+              echo "Updating deployment to ${CIRCLE_WORKFLOW_ID:0:7}"
+              kubectl set image deployment/site site="$DOCKERHUB_LOGIN/$CIRCLE_PROJECT_REPONAME:${CIRCLE_WORKFLOW_ID:0:7}"
+            else
+              echo "Creating deployment"
+              kubectl apply -f ./kubernetes
+            fi
 
 workflows:
   default:
     jobs:
-      - test-build
-      - upload-docker:
-          requires: [test-build]
-      - deploy:
-          requires: [upload-docker]
-          
+      #- test-build
+      - upload-docker
+      #     requires: [test-build]
+      # - deploy:
+      #     requires: [upload-docker]
