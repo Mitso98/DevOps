@@ -73,7 +73,7 @@ jobs:
           # DevOps is the cluster name
           name: create update EKS cluster
           command: |
-            aws eks update-kubeconfig --name eksctl-demo --region us-east-2
+            aws eks update-kubeconfig --name DevOps --region us-east-2
             kubectl config view -o jsonpath='{"Cluster name\tServer\n"}{range .clusters[*]}{.name}{"\t"}{.cluster.server}{"\n"}{end}'
             echo "Deploying to cluster"
             if kubectl get deployment hello-app; then
@@ -81,6 +81,7 @@ jobs:
               kubectl set image deployment/hello-app hello-app="${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
             else
               echo "Creating deployment"
+              kubectl create namespace hello-app
               kubectl apply -f ./kubernetes
             fi
 
