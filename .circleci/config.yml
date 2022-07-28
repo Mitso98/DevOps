@@ -95,7 +95,7 @@ workflows:
   default:
     jobs:
       #- test-build
-      - upload-docker
+      # - upload-docker:
       #     requires: [test-build]
-      # - deploy:
+      - deploy
       #     requires: [upload-docker]
