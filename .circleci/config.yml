@@ -84,16 +84,11 @@ jobs:
       - run:
           name: Create an EKS Cluster
           command: |
-            eksctl create cluster --name "eksctl-${CIRCLE_WORKFLOW_ID:0:7}" --region=us-east-2
-            eksctl utils describe-stacks --region=us-east-2 --cluster="eksctl-${CIRCLE_WORKFLOW_ID:0:7}"
-            eksctl get cluster --name="eksctl-${CIRCLE_WORKFLOW_ID:0:7}" --region=us-east-2
-            kubectl get nodes
-      - run:
-          name: Deploy docker image to kubernates cluster
-          command: |
-            kubectl create deploy python-helloworld --image="mo9348/hello-image:latest"
-            kubectl get deploy,rs,svc,pods
-      - destroy-environment
+            kubectl create namespace "hello-app"
+            kubectl apply -f deploy.yml
+            kubectl apply -f service.yaml
+            kubectl get all -n "hello-app"
+
 
 workflows:
   default:
