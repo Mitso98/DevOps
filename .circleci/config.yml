@@ -74,25 +74,25 @@ jobs:
 
       - run:
           # DevOps is the cluster name
-          name: create update EKS cluster
+          name: create new cluster
           command: |
-            if eksctl create cluster --name devops --region=us-east-2
+            if eksctl create cluster -f cluster.yaml
             then
               echo "creating new cluster"
+              aws eks update-kubeconfig --name devops --region us-east-2
+              kubectl create deploy devops --image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
+              kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80
             else
+              aws eks update-kubeconfig --name devops --region us-east-2
               echo "update existing cluster"
+              kubectl set image deployment/devops hello-image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
             fi
-      - run:
-          name: Deploy
-          command: |
-            echo "deploying"
-            aws eks update-kubeconfig --name devops --region us-east-2
-            kubectl set image deployment/devops hello-image=mo9348/hello-image:3edc5d3
-            kubectl get deployment devops
-            kubectl get pods
-            kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80 
-            #kubectl create deploy devops --image="mo9348/hello-image:latest"
-
+#      - run:
+ #         name: update existing cluster
+  #        command: |
+   #         kubectl get deployment devops
+    #        kubectl get pods
+     #       kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80 
 
 workflows:
   default:
