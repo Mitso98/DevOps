@@ -80,6 +80,9 @@ jobs:
             then
               echo " creating new cluster
             fi
+      - run:
+          name: Deploy
+          command: |
             echo "deploying"
             aws eks update-kubeconfig --name DevOps
             kubectl create deploy DevOps --image="mo9348/hello-image:latest"
