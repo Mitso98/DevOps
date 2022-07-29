@@ -76,7 +76,7 @@ jobs:
           # DevOps is the cluster name
           name: create new cluster
           command: |
-            if eksctl create cluster -f cluster.yaml
+            if eksctl create cluster -f cluster.yml
             then
               echo "creating new cluster"
               aws eks update-kubeconfig --name devops --region us-east-2
@@ -97,8 +97,8 @@ jobs:
 workflows:
   default:
     jobs:
-      #- test-build
-      #- upload-docker:
-       #   requires: [test-build]
-      - deploy
-      #    requires: [upload-docker]
+      - test-build
+      - upload-docker:
+          requires: [test-build]
+      - deploy:
+          requires: [upload-docker]
