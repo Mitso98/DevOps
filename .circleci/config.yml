@@ -76,7 +76,13 @@ jobs:
           # DevOps is the cluster name
           name: create update EKS cluster
           command: |
-            aws configure list
+            if eksctl create cluster --name DevOps --region=us-east-2
+            then
+              echo "Creating cluster"
+              kubectl get nodes
+            else
+              kubectl get nodes
+            fi
 
 
 workflows:
