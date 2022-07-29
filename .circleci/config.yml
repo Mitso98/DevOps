@@ -22,14 +22,12 @@ jobs:
 
     steps:
       - checkout
-      # run build
       - run:
           name: install dependencies
           command: |
             python3 -m venv .devops
             source .devops/bin/activate
             make install
-      # run lint
       - run:
           name: run lint
           command: |
@@ -71,7 +69,6 @@ jobs:
             install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
             curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
             mv /tmp/eksctl /usr/local/bin
-
       - run:
           name: create new cluster
           command: |
@@ -88,18 +85,18 @@ jobs:
               kubectl set image deployment/devops hello-image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
             fi
             
-    smoke-test:
-      docker:
-        - image: amazon/aws-cli
-      steps:
-        - run:
-            name: Test load balancer
-            command: |
-              if curl -s http://a99e2b391dd0340829cd94b573952c22-46524376.us-west-2.elb.amazonaws.com/ | grep "Hello"
-              then
-                echo "OK!"
-              else
-                kubectl rollout undo deployments/devops
+  smoke-test:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - run:
+          name: Test load balancer
+          command: |
+            if curl -s http://a99e2b391dd0340829cd94b573952c22-46524376.us-west-2.elb.amazonaws.com/ | grep "Hello"
+            then
+              echo "OK!"
+            else
+              kubectl rollout undo deployments/devops
 
 workflows:
   default:
