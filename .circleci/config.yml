@@ -78,7 +78,9 @@ jobs:
           command: |
             if eksctl create cluster --name DevOps --region=us-east-2
             then
-              echo " creating new cluster
+              echo "creating new cluster"
+            else
+              echo "update existing cluster"
             fi
       - run:
           name: Deploy
