@@ -75,9 +75,18 @@ jobs:
       - run:
           name: create new cluster
           command: |
-            eksctl delete cluster --name project --region us-east-2
-            eksctl delete cluster --name DevOps --region us-east-2
-            eksctl delete cluster --name capstone --region us-east-2
+            if eksctl create cluster --name hello-stack --region=us-west-2
+            then
+              echo "creating new cluster"
+              aws eks update-kubeconfig --name hello-stack --region us-west-2
+              kubectl create deploy hello-stack --image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
+              kubectl expose deployment hello-stack --type=LoadBalancer --port=80 --target-port=80
+            else
+              aws eks update-kubeconfig --name hello-stack --region us-west-2
+              echo "update existing cluster"
+              kubectl get deploy,rs,svc,pods
+              kubectl set image deployment/hello-stack hello-image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
+            fi
 #      - run:
  #         name: update existing cluster
   #        command: |
