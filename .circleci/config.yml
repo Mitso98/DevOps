@@ -87,9 +87,9 @@ jobs:
           command: |
             echo "deploying"
             aws eks update-kubeconfig --name devops --region us-east-2
-            kubectl set image deployment/devops hello-image=mo9348/hello-image:3edc5d3 --record=true
-            kubectl edit deployment/devops --record=true
-            kubectl get deployment devops -o yaml
+            kubectl set image deployment/devops hello-image=mo9348/hello-image:3edc5d3
+            kubectl edit deployment/devops 
+            #kubectl get deployment devops -o yaml
             #kubectl create deploy devops --image="mo9348/hello-image:latest"
             #kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80 
 
