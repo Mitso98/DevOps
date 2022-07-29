@@ -76,7 +76,7 @@ jobs:
           # DevOps is the cluster name
           name: create update EKS cluster
           command: |
-            if eksctl create cluster --name DevOps --region=us-east-2
+            if eksctl create cluster --name devops --region=us-east-2
             then
               echo "creating new cluster"
             else
