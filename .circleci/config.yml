@@ -90,8 +90,8 @@ jobs:
             kubectl set image deployment/devops hello-image=mo9348/hello-image:3edc5d3
             kubectl get deployment devops
             kubectl get pods
+            kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80 
             #kubectl create deploy devops --image="mo9348/hello-image:latest"
-            #kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80 
 
 
 workflows:
