@@ -79,9 +79,9 @@ jobs:
             if eksctl create cluster --name DevOps --region=us-east-2
             then
               echo "Creating cluster"
-              kubectl get nodes
+      
             else
-              kubectl get nodes
+                echo "update"
             fi
 
 
