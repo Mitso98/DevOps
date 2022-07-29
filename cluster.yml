@@ -3,7 +3,7 @@ kind: ClusterConfig
 
 metadata:
   name: devops
-  region: eu-west-2
+  region: us-east-2
 
 nodeGroups:
   - name: ng-1
