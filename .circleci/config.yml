@@ -87,9 +87,10 @@ jobs:
           command: |
             echo "deploying"
             aws eks update-kubeconfig --name devops --region us-east-2
-            kubectl get pods
+            echo `kubectl get deployment my-first-deployment -o text`
+            #kubectl get pods
             #kubectl create deploy devops --image="mo9348/hello-image:latest"
-            kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80 
+            #kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80 
 
 
 workflows:
