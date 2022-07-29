@@ -78,19 +78,19 @@ jobs:
           command: |
             if eksctl create cluster --name DevOps --region=us-east-2
             then
+              echo " creating new cluster
+            fi
+              echo "deploying"
               kubectl create deploy python-helloworld --image="mo9348/hello-image:latest"
               aws eks update-kubeconfig --name python-helloworld
               kubectl expose deployment python-helloworld --type=LoadBalancer --port=8000 --target-port=80 -n=python-helloworld
-            else
-                echo "update"
-            fi
 
 
 workflows:
   default:
     jobs:
-      - test-build
-      - upload-docker:
-          requires: [test-build]
-      - deploy:
-          requires: [upload-docker]
+      #- test-build
+      #- upload-docker:
+       #   requires: [test-build]
+      - deploy
+      #    requires: [upload-docker]
