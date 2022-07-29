@@ -66,24 +66,23 @@ jobs:
       - run:
           name: Install dependancies
           command: |
+            yum install -y tar gzip
             curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.18.9/2020-11-02/bin/linux/amd64/kubectl
             install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+            curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+            sudo mv /tmp/eksctl /usr/local/bin
 
       - run:
           # DevOps is the cluster name
           name: create update EKS cluster
           command: |
-            aws eks update-kubeconfig --name DevOps --region us-east-2 --role-arn arn:aws:iam::397309920099:role/EKS-cluster-role
-            kubectl config view -o jsonpath='{"Cluster name\tServer\n"}{range .clusters[*]}{.name}{"\t"}{.cluster.server}{"\n"}{end}'
-            echo "Deploying to cluster"
-            if kubectl get deployment hello-app; then
-              echo "Updating deployment to ${CIRCLE_WORKFLOW_ID:0:7}"
-              kubectl set image deployment/hello-app hello-app="${dockerpath}:${CIRCLE_WORKFLOW_ID:0:7}"
+            if eksctl create cluster --name DevOps --region=us-east-2 --profile admin
+            then
+              echo "Creating cluster"
+              kubectl get nodes --profile admin
             else
-              echo "Creating deployment"
-              kubectl create namespace hello-app
-              kubectl apply -f ./kubernetes
-            fi
+              kubectl get nodes --profile admin
+
 
 workflows:
   default:
