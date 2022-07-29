@@ -73,19 +73,19 @@ jobs:
             mv /tmp/eksctl /usr/local/bin
 
       - run:
-          # DevOps is the cluster name
           name: create new cluster
           command: |
-            if eksctl create cluster -f cluster.yml
+            if eksctl create cluster --name hello-stack --region=us-east-2
             then
               echo "creating new cluster"
-              aws eks update-kubeconfig --name project --region us-east-2
-              kubectl create deploy project --image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
-              kubectl expose deployment project --type=LoadBalancer --port=80 --target-port=80
+              aws eks update-kubeconfig --name hello-stack --region us-east-2
+              kubectl create deploy hello-stack --image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
+              kubectl expose deployment hello-stack --type=LoadBalancer --port=80 --target-port=80
             else
-              aws eks update-kubeconfig --name project --region us-east-2
+              aws eks update-kubeconfig --name hello-stack --region us-east-2
               echo "update existing cluster"
-              kubectl set image deployment/project hello-image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
+              kubectl get deploy,rs,svc,pods
+              kubectl set image deployment/hello-stack hello-image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
             fi
 #      - run:
  #         name: update existing cluster
