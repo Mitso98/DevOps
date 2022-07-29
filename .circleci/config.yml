@@ -89,6 +89,7 @@ jobs:
           name: Deploy
           command: |
             echo "deploying"
+            kubectl version --short --client
             aws eks update-kubeconfig --name DevOps
             kubectl create deploy DevOps --image="mo9348/hello-image:latest"
             kubectl expose deployment DevOps --type=LoadBalancer --port=8000 --target-port=80 -n=python-helloworld
