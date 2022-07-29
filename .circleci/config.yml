@@ -97,6 +97,7 @@ jobs:
               echo "OK!"
             else
               kubectl rollout undo deployments/devops
+            fi
 
 workflows:
   default:
