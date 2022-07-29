@@ -75,7 +75,6 @@ jobs:
       - run:
           name: create new cluster
           command: |
-            eksctl delete cluster --name devops --region us-east-2
             eksctl delete cluster --name project --region us-east-2
             eksctl delete cluster --name DevOps --region us-east-2
             eksctl delete cluster --name capstone --region us-east-2
