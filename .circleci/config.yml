@@ -81,9 +81,9 @@ jobs:
               echo " creating new cluster
             fi
               echo "deploying"
-              kubectl create deploy python-helloworld --image="mo9348/hello-image:latest"
-              aws eks update-kubeconfig --name python-helloworld
-              kubectl expose deployment python-helloworld --type=LoadBalancer --port=8000 --target-port=80 -n=python-helloworld
+              aws eks update-kubeconfig --name DevOps
+              kubectl create deploy DevOps --image="mo9348/hello-image:latest"
+              kubectl expose deployment DevOps --type=LoadBalancer --port=8000 --target-port=80 -n=python-helloworld
 
 
 workflows:
