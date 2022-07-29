@@ -90,8 +90,14 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - run:
+          name: Install dependancies
+          command: |
+            curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.22.6/2022-03-09/bin/linux/amd64/kubectl
+            install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+      - run:
           name: Test load balancer
           command: |
+            aws eks update-kubeconfig --name devops --region us-west-2
             if curl -s http://a99e2b391dd0340829cd94b573952c22-46524376.us-west-2.elb.amazonaws.com/ | grep "Hello"
             then
               echo "OK!"
