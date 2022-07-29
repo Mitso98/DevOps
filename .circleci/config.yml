@@ -92,14 +92,14 @@ jobs:
       docker:
         - image: amazon/aws-cli
       steps:
-        -run:
-          name: Test load balancer
-          command: |
-            if curl -s http://a99e2b391dd0340829cd94b573952c22-46524376.us-west-2.elb.amazonaws.com/ | grep "Hello"
-            then
-              echo "OK!"
-            else
-              kubectl rollout undo deployments/devops
+        - run:
+            name: Test load balancer
+            command: |
+              if curl -s http://a99e2b391dd0340829cd94b573952c22-46524376.us-west-2.elb.amazonaws.com/ | grep "Hello"
+              then
+                echo "OK!"
+              else
+                kubectl rollout undo deployments/devops
 
 workflows:
   default:
