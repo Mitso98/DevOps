@@ -79,13 +79,13 @@ jobs:
             if eksctl create cluster -f cluster.yml
             then
               echo "creating new cluster"
-              aws eks update-kubeconfig --name devops --region us-east-2
-              kubectl create deploy devops --image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
-              kubectl expose deployment devops --type=LoadBalancer --port=80 --target-port=80
+              aws eks update-kubeconfig --name project --region us-east-2
+              kubectl create deploy project --image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
+              kubectl expose deployment project --type=LoadBalancer --port=80 --target-port=80
             else
-              aws eks update-kubeconfig --name devops --region us-east-2
+              aws eks update-kubeconfig --name project --region us-east-2
               echo "update existing cluster"
-              kubectl set image deployment/devops hello-image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
+              kubectl set image deployment/project hello-image="mo9348/hello-image:${CIRCLE_WORKFLOW_ID:0:7}"
             fi
 #      - run:
  #         name: update existing cluster
