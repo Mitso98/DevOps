@@ -4,7 +4,8 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "<p>Hello Udacity! V3</p>"
+    # smoke test will not find "hello" so it will trigger roll back
+    return "<p>Udacity! V3</p>" 
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=80,debug=True # intential error to test rollback 
+    app.run(host="0.0.0.0", port=80,debug=True) 
