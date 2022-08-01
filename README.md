@@ -11,6 +11,3 @@ This project domenstrates following skills:
 * Download the image and deploy it
 * Run smoke test
 * Role back to the previous version if error are detected
-
-## Deployed app link
-http://a99e2b391dd0340829cd94b573952c22-46524376.us-west-2.elb.amazonaws.com/
